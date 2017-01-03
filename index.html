@@ -17,7 +17,7 @@
 <script>
   mapboxgl.accessToken = "pk.eyJ1IjoidGVhcjcyOCIsImEiOiJjaXhnb2gzdmswMDNhMnpsYWVzZXF1Y245In0.BUMz1l0PWVXXCpJ75YRong";
 
-  navigator.geolocation.watchPosition(function(position) {
+  navigator.geolocation.getCurrentPosition(function(position) {
     var map = new mapboxgl.Map({
       container: 'map', //ontainer id
       // maxZoom: 28,
