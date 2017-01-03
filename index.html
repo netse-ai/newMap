@@ -16,51 +16,37 @@
 
 <script>
   mapboxgl.accessToken = "pk.eyJ1IjoidGVhcjcyOCIsImEiOiJjaXhnb2gzdmswMDNhMnpsYWVzZXF1Y245In0.BUMz1l0PWVXXCpJ75YRong";
-  setInterval(function(){
-    navigator.geolocation.getCurrentPosition(function(position) {
-      var map = new mapboxgl.Map({
-        container: 'map', //ontainer id
-        // maxZoom: 28,
-        // minZoom: 25,
-        style: 'mapbox://styles/mapbox/streets-v9',
-        center: [position.coords.longitude, position.coords.latitude],
-        zoom: 17
-      });
-      console.log((position.coords.longitude, position.coords.latitude));
-      map.on('load', function () {
-        map.addSource("points", {
-            "type": "geojson",
-            "data": {
-                "type": "FeatureCollection",
-                "features": [{
-                    "type": "Feature",
-                    "geometry": {
-                        "type": "Point",
-                        "coordinates": [position.coords.longitude, position.coords.latitude]
-                    },
-                    "properties": {
-                        "title": "You",
-                        "icon": "monument"
-                    }
-                }]
-              }
-        });
 
-        map.addLayer({
-            "id": "points",
-            "type": "symbol",
-            "source": "points",
-            "layout": {
-                "icon-image": "{icon}-15",
-                "text-field": "{title}",
-                "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
-                "text-offset": [0, 0.6],
-                "text-anchor": "top"
-            }
-        });
-      });
-    }, null, {enableHighAccuracy: true });
-  }, 5000);
+  var map = new mapboxgl.Map({
+    container: 'map', //container id
+    // maxZoom: 28,
+    // minZoom: 25,
+    style: 'mapbox://styles/mapbox/streets-v9',
+    center: [0, 0],
+    zoom: 17
+  });
+
+  function updateCoordinates(){
+    navigator.geolocation.watchPosition(function(position){
+      var coords = {
+        lng: position.coords.longitude,
+        lat: position.coords.latitude
+      }
+      // map.getSource('points').setData(coords);
+      map.setCenter(coords)
+      // src.data.geometry.coordinates = [coords[0], coords[1]]
+      // src._data.features[0].geometry.coordinates = [coords.lng, coords.lat];
+      // console.log(src._data.features[0].geometry.coordinates)
+    }, null, {enableHighAccuracy: true});
+  }
+
+  updateCoordinates();
+
+  // function loadMap(){
+  // map.on('load', function () {});
+
+  // }
+  // loadMap();
   </script>
 </body>
 </html>
