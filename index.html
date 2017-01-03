@@ -16,50 +16,51 @@
 
 <script>
   mapboxgl.accessToken = "pk.eyJ1IjoidGVhcjcyOCIsImEiOiJjaXhnb2gzdmswMDNhMnpsYWVzZXF1Y245In0.BUMz1l0PWVXXCpJ75YRong";
+  setInterval(function(){
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var map = new mapboxgl.Map({
+        container: 'map', //ontainer id
+        // maxZoom: 28,
+        // minZoom: 25,
+        style: 'mapbox://styles/mapbox/streets-v9',
+        center: [position.coords.longitude, position.coords.latitude],
+        zoom: 26
+      });
+      console.log((position.coords.longitude, position.coords.latitude));
+      map.on('load', function () {
+        map.addSource("points", {
+            "type": "geojson",
+            "data": {
+                "type": "FeatureCollection",
+                "features": [{
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [position.coords.longitude, position.coords.latitude]
+                    },
+                    "properties": {
+                        "title": "You",
+                        "icon": "monument"
+                    }
+                }]
+              }
+        });
 
-  navigator.geolocation.getCurrentPosition(function(position) {
-    var map = new mapboxgl.Map({
-      container: 'map', //ontainer id
-      // maxZoom: 28,
-      // minZoom: 25,
-      style: 'mapbox://styles/mapbox/streets-v9',
-      center: [position.coords.longitude, position.coords.latitude],
-      zoom: 26
-    });
-    console.log((position.coords.longitude, position.coords.latitude));
-    map.on('load', function () {
-      map.addSource("points", {
-          "type": "geojson",
-          "data": {
-              "type": "FeatureCollection",
-              "features": [{
-                  "type": "Feature",
-                  "geometry": {
-                      "type": "Point",
-                      "coordinates": [position.coords.longitude, position.coords.latitude]
-                  },
-                  "properties": {
-                      "title": "You",
-                      "icon": "monument"
-                  }
-              }]
+        map.addLayer({
+            "id": "points",
+            "type": "symbol",
+            "source": "points",
+            "layout": {
+                "icon-image": "{icon}-15",
+                "text-field": "{title}",
+                "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
+                "text-offset": [0, 0.6],
+                "text-anchor": "top"
             }
+        });
       });
-
-      map.addLayer({
-          "id": "points",
-          "type": "symbol",
-          "source": "points",
-          "layout": {
-              "icon-image": "{icon}-15",
-              "text-field": "{title}",
-              "text-font": ["Open Sans Semibold", "Arial Unicode MS Bold"],
-              "text-offset": [0, 0.6],
-              "text-anchor": "top"
-          }
-      });
-    });
-  }, null, {enableHighAccuracy: true });
+    }, null, {enableHighAccuracy: true });
+  }, 5000);
   </script>
 </body>
 </html>
