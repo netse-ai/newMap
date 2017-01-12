@@ -1,17 +1,26 @@
 <html>
-<head>
-  <meta charset="utf-8"/>
-  <title>Map</title>
-  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no'/>
-  <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.29.0/mapbox-gl.js'></script>
-  <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.29.0/mapbox-gl.css' rel='stylesheet'/>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/map.js"></script>
+  </head>
   <style>
-    body {margin: 0; padding: 0}
-    #map {position: absolute ; top:0; bottom: 0; width: 100%;}
-    #button {position: relative; z-index: 1}
+    body {
+      margin: 0;
+      padding: 0
+    }
+
+    #map {
+      position: absolute;
+      top:0; bottom: 0;
+      width: 100%;
+    }
+
+    #button {
+      position: relative;
+      z-index: 1
+    }
+
     .listings {
       height: 100%;
       overflow: auto;
@@ -41,11 +50,9 @@
       color: grey;
       padding-left: 10px;
     }
-  </style>
-</head>
 
+  </style>
 <body>
-  <div id="map"></div>
   <div id="button">
     <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#inventoryModal">Inventory</button>
   </div>
@@ -66,41 +73,11 @@
       </div>
     </div>
   </div>
-
-<script>
-  mapboxgl.accessToken = "pk.eyJ1IjoidGVhcjcyOCIsImEiOiJjaXhnb2gzdmswMDNhMnpsYWVzZXF1Y245In0.BUMz1l0PWVXXCpJ75YRong";
-
-  var map = new mapboxgl.Map({
-    container: 'map', //container id
-    // maxZoom: 28,
-    // minZoom: 25,
-    style: 'mapbox://styles/mapbox/streets-v9',
-    center: [0, 0],
-    zoom: 17
-  });
-
-  function updateCoordinates(){
-    navigator.geolocation.watchPosition(function(position){
-      var coords = {
-        lng: position.coords.longitude,
-        lat: position.coords.latitude
-      }
-      // map.getSource('points').setData(coords);
-      map.setCenter(coords)
-      // src.data.geometry.coordinates = [coords[0], coords[1]]
-      // src._data.features[0].geometry.coordinates = [coords.lng, coords.lat];
-      // console.log(src._data.features[0].geometry.coordinates)
-    }, null, {enableHighAccuracy: true});
-  }
-
-  updateCoordinates();
-
-  // function loadMap(){
-  // map.on('load', function () {});
-
-  // }
-  // loadMap();
+  <div id="map"></div>
+  <!-- Replace the value of the key parameter with your own API key. -->
+  <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD0Tg_Auo4YOg7F6QDEmaLPkBVd6_DynQQ&libraries=places&callback=initMap">
   </script>
+  <script type="text/javascript" src="/iteminventory.js"></script>
 </body>
-<script type="text/javascript" src="/iteminventory.js"></script>
 </html>
