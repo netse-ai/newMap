@@ -11,8 +11,8 @@ data = {
     },
     {
         "id": 1,
-        "name": "Shitty Ruined Sword",
-        "description": "- A shittier ruined sword. Definitely the worst item in the entire game.",
+        "name": "Another Ruined Sword",
+        "description": "- Another ruined sword. Definitely the worst item in the entire game.",
         "stats":{
             "attack": "Attack is 1",
             "durability": "Durability is 3"
