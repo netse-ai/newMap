@@ -72,7 +72,6 @@ function watchPositionCallback(position){
   // center the map on the currentLocation object
   map.setCenter(currentLocation);
   userMarker.setPosition(currentLocation);
-  console.log(userMarker.getPosition());
 
   // initialize new PlacesServices
   placesChurchService = new google.maps.places.PlacesService(map);
@@ -89,7 +88,8 @@ function searchCallback(result, status) {
     for (var i = 0; i < result.length; i++) {
       var place = result[i];
       createNearbySearchMarker(place);
-      pickUpItem(place);
+      // pickUpItem(place);
+      console.log(place.vicinity);
     }
   }
 }
