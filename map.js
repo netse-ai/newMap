@@ -37,7 +37,6 @@ function initMap() {
 
   infoWindow = new google.maps.InfoWindow();
   createUserMarker()
-  console.log(userMarker);
   map.setOptions({passiveLogo: true});
   updateMap();
 
@@ -48,8 +47,31 @@ function initMap() {
 
 function updateMap(){
   //navigator is passed a callback to handle return position
-  navigator.geolocation.watchPosition(watchPositionCallback);
-  // console.log(userMarker);
+  navigator.geolocation.watchPosition(function(position){
+    var pos = {
+      lat: position.coords.latitude,
+      lng: position.coords.longitude
+    }
+    var currentLocation = new google.maps.LatLng(pos.lat, pos.lng);
+
+    //update request objects to be sent to the nearBySearch query
+    //with the currentLocation object as the specified location
+    nearByChurchSearchRequest.location = currentLocation;
+    nearByStoreSearchRequest.location = currentLocation;
+
+    // center the map on the currentLocation object
+    map.setCenter(currentLocation);
+    userMarker.setPosition(currentLocation);
+
+    // initialize new PlacesServices
+    placesChurchService = new google.maps.places.PlacesService(map);
+    placesStoreService = new google.maps.places.PlacesService(map);
+
+    // servie methods used to search nearby queries based on the requests
+    placesChurchService.nearbySearch(nearByChurchSearchRequest, searchCallback);
+    placesStoreService.nearbySearch(nearByStoreSearchRequest, searchCallback);
+    
+  }, null, {enableHighAccuracy: true});
 }
 
 
@@ -57,30 +79,31 @@ function updateMap(){
 
 // callback for watchPosition() used to handle the returned position data
 // as well as run searches
-function watchPositionCallback(position){
-  var pos = {
-    lat: position.coords.latitude,
-    lng: position.coords.longitude
-  }
-  var currentLocation = new google.maps.LatLng(pos.lat, pos.lng);
-
-  //update request objects to be sent to the nearBySearch query
-  //with the currentLocation object as the specified location
-  nearByChurchSearchRequest.location = currentLocation;
-  nearByStoreSearchRequest.location = currentLocation;
-
-  // center the map on the currentLocation object
-  map.setCenter(currentLocation);
-  userMarker.setPosition(currentLocation);
-
-  // initialize new PlacesServices
-  placesChurchService = new google.maps.places.PlacesService(map);
-  placesStoreService = new google.maps.places.PlacesService(map);
-
-  // servie methods used to search nearby queries based on the requests
-  placesChurchService.nearbySearch(nearByChurchSearchRequest, searchCallback);
-  placesStoreService.nearbySearch(nearByStoreSearchRequest, searchCallback);
-}
+//TESTING ANONYMOUS FUNCTION CALLBACK
+// function watchPositionCallback(position){
+//   var pos = {
+//     lat: position.coords.latitude,
+//     lng: position.coords.longitude
+//   }
+//   var currentLocation = new google.maps.LatLng(pos.lat, pos.lng);
+//
+//   //update request objects to be sent to the nearBySearch query
+//   //with the currentLocation object as the specified location
+//   nearByChurchSearchRequest.location = currentLocation;
+//   nearByStoreSearchRequest.location = currentLocation;
+//
+//   // center the map on the currentLocation object
+//   map.setCenter(currentLocation);
+//   userMarker.setPosition(currentLocation);
+//
+//   // initialize new PlacesServices
+//   placesChurchService = new google.maps.places.PlacesService(map);
+//   placesStoreService = new google.maps.places.PlacesService(map);
+//
+//   // servie methods used to search nearby queries based on the requests
+//   placesChurchService.nearbySearch(nearByChurchSearchRequest, searchCallback);
+//   placesStoreService.nearbySearch(nearByStoreSearchRequest, searchCallback);
+// }
 
 // callback for nearbySearch()
 function searchCallback(result, status) {
@@ -89,7 +112,6 @@ function searchCallback(result, status) {
       var place = result[i];
       createNearbySearchMarker(place);
       // pickUpItem(place);
-      console.log(place.vicinity);
     }
   }
 }
@@ -101,8 +123,6 @@ function createNearbySearchMarker(place) {
     map: map,
     position: place.geometry.location
   });
-  console.log(place.geometry.location)
-
 
   google.maps.event.addListener(marker, 'click', function() {
     infoWindow.setContent(place.name);
