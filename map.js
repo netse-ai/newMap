@@ -37,8 +37,8 @@ function initMap() {
 
   infoWindow = new google.maps.InfoWindow();
   createUserMarker()
+  console.log(userMarker);
   map.setOptions({passiveLogo: true});
-
   updateMap();
 
 }
@@ -64,7 +64,7 @@ function watchPositionCallback(position){
   }
   var currentLocation = new google.maps.LatLng(pos.lat, pos.lng);
 
-  //update request object to be sent to the nearBySearch query
+  //update request objects to be sent to the nearBySearch query
   //with the currentLocation object as the specified location
   nearByChurchSearchRequest.location = currentLocation;
   nearByStoreSearchRequest.location = currentLocation;
@@ -72,6 +72,7 @@ function watchPositionCallback(position){
   // center the map on the currentLocation object
   map.setCenter(currentLocation);
   userMarker.setPosition(currentLocation);
+  console.log(userMarker.getPosition());
 
   // initialize new PlacesServices
   placesChurchService = new google.maps.places.PlacesService(map);
@@ -126,6 +127,7 @@ function createUserMarker(){
     infoWindow.setContent("<div>"+"<p>You</p>"+"</div>");
     infoWindow.open(map, this);
   });
+  return userMarker;
 }
 
 function pickUpItem(place){
