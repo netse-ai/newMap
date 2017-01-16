@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.min.js"></script>
+    <script type="text/javascript" src="javascripts/map.js"></script>
+  </head>
+  <style>
+    body {
+      margin: 0;
+      padding: 0
+    }
+
+    #map {
+      position: absolute;
+      top:0;
+      bottom: 0;
+      width: 100%;
+    }
+
+    #button {
+      position: relative;
+      z-index: 1
+    }
+
+    .listings {
+      height: 100%;
+      overflow: auto;
+    }
+    .listings .item {
+      display: block;
+      border-bottom: 1px solid #eee;
+      padding: 10px;
+      text-decoration: none;
+    }
+    .itemName {
+      color: black;
+      padding-bottom: 5px;
+    }
+    .itemName .itemDescription {
+      color: grey;
+      padding-top: 20px;
+      padding-left: 10px;
+    }
+
+    .itemName .itemAttackStats{
+      color: grey;
+      padding-left: 10px;
+    }
+
+    .itemName .itemDurabilityStats{
+      color: grey;
+      padding-left: 10px;
+    }
+
+  </style>
+<body>
+  <div id="button">
+    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#inventoryModal">Inventory</button>
+  </div>
+  <div id="modalContainer">
+    <div id="inventoryModal" class="modal" id="modalFade" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <div class="modal-title"> Inventory </div>
+          </div>
+          <div class="modal-body">
+            <div id='listings' class="listings"></div>
+          </div>
+          <div id="modalFooter" class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="map"></div>
+  <!-- Replace the value of the key parameter with your own API key. -->
+  <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD0Tg_Auo4YOg7F6QDEmaLPkBVd6_DynQQ&libraries=places&callback=initMap">
+  </script>
+  <script type="text/javascript" src="javascripts/iteminventory.js"></script>
+</body>
+</html>
